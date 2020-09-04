@@ -3,9 +3,9 @@ import Button from './button'
 
 export default () => (
     <div id="buttons-container">
-      <Button color="red" />
       <Button color="green" />
-      <Button color="blue" />
+      <Button color="red" />
       <Button color="yellow" />
+      <Button color="blue" />
     </div>
 )
