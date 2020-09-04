@@ -1,4 +1,4 @@
-import path from 'path';
+path = require('path');
 
 module.exports = {
   entry: "./src/components/simon.jsx",
