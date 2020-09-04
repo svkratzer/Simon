@@ -1,7 +1,7 @@
 import path from 'path';
 
 module.exports = {
-  entry: "./components/simon.jsx",
+  entry: "./src/components/simon.jsx",
   output: {
     path: path.resolve(__dirname),
     filename: "bundle.js"
