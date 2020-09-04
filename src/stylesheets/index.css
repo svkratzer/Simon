@@ -1,0 +1,39 @@
+:root {
+  --buttons-container-width: 300px;
+  --buttons-container-height: 300px;
+}
+
+/* Button Styling */
+
+#buttons-container {
+  width: var(--buttons-container-width);
+  height: var(--buttons-container-height);
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+}
+
+.button {
+  border: none;
+  height: var(--buttons-container-height) / 2;
+  width: var(--buttons-container-width) / 2;
+}
+
+#red {
+  background-color: rgb(255, 0, 0);
+}
+
+#green {
+  background-color: rgb(42, 175, 42);
+
+}
+
+#blue {
+  background-color: rgb(55, 55, 255);
+}
+
+#yellow {
+  background-color: rgb(253, 249, 0);
+}
+
+/* Other Styling */
