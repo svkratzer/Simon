@@ -1,5 +1,5 @@
 {
-  "name": "Simon",
+  "name": "simon",
   "version": "1.0.0",
   "description": "A memory game made with React",
   "main": "webpack.config.js",
