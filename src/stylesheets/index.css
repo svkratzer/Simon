@@ -1,6 +1,9 @@
 :root {
   --buttons-container-width: 300px;
   --buttons-container-height: 300px;
+
+  --button-height: 140px;
+  --button-width: 140px;
 }
 
 /* Button Styling */
@@ -15,25 +18,49 @@
 
 .button {
   border: none;
-  height: var(--buttons-container-height) / 2;
-  width: var(--buttons-container-width) / 2;
+  height: var(--button-width);
+  width: var(--button-height);
 }
 
-#red {
-  background-color: rgb(255, 0, 0);
+.button:hover {
+  opacity: 0.6;
+  box-shadow: 0px 0px 10px rgba(0,0,0, 0.4)
 }
 
 #green {
   background-color: rgb(42, 175, 42);
+  border: rgb(22, 148, 22) 1px solid;
 
+  border-radius: var(--button-width) 0 0 0;
+  -moz-border-radius: var(--button-width) 0 0 0;
+  -webkit-border-radius: var(--button-width) 0 0 0;
+}
+
+#red {
+  background-color: rgb(255, 13, 13);
+  border: rgb(187, 15, 15) 1px solid;
+
+  border-radius: 0 var(--button-width) 0 0;
+  -moz-border-radius: 0 var(--button-width) 0 0;
+  -webkit-border-radius: 0 var(--button-width) 0 0;
 }
 
 #blue {
-  background-color: rgb(55, 55, 255);
+  background-color: rgb(55, 68, 255);
+  border:  rgb(43, 54, 214) 1px solid;
+
+    border-radius: 0 0 var(--button-width) 0;
+  -moz-border-radius: 0 0 var(--button-width) 0;
+  -webkit-border-radius: 0 0 var(--button-width) 0;
 }
 
 #yellow {
-  background-color: rgb(253, 249, 0);
+  background-color: rgb(253, 215, 0);
+  border:  rgb(207, 178, 11) 1px solid;
+
+    border-radius: 0 0 0 var(--button-width);
+  -moz-border-radius: 0 0 0 var(--button-width);
+  -webkit-border-radius: 0 0 0 var(--button-width);
 }
 
 /* Other Styling */
