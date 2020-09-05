@@ -92,10 +92,34 @@
 
 /* Other Styling */
 
+header h1 {
+  font-size: 24px;
+  margin: 15px;
+}
+
+.round-or-play-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#play {
+  margin: 10px;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 #highscores-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#highscores-header {
+  margin-top: 20px;
 }
 
 .line {
@@ -105,7 +129,7 @@
 }
 
 input {
-  margin: 20px 0 40px 0;
+  margin: 20px 0 0 0;
 }
 
 #new-highscore {
@@ -222,12 +246,23 @@ header, section {
     display: block;
   }
 
+  .modal button {
+    margin: 10px 5px 0 0;
+    height: 30px;
+    font-size: 16px;
+}
+
+#play-again {
+  font-size: 14px;
+}
+
   #desktop-note {
     display: none;
   }
 
   .modal.container {
     height: 280px;
+    padding: 10px;
   }
 }
 
