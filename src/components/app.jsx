@@ -2,8 +2,18 @@ import React from 'react'
 import Button from './button'
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.colors = ["green", "red", "yellow", "blue"]
+  }
 
   render() {
+    
+    // Create an array of Button components by mapping over colors
+    const buttons = this.colors.map((color, idx) => (
+      <Button key={idx} color={color}/>
+    ));
+
     return (
       <>
         <header>
@@ -12,10 +22,7 @@ class App extends React.Component {
 
         <section>
           <div id="buttons-container">
-            <Button color="green" />
-            <Button color="red" />
-            <Button color="yellow" />
-            <Button color="blue" />
+            {buttons}
           </div>
         </section>
       </>
