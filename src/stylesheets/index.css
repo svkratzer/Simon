@@ -49,8 +49,7 @@
 }
 
 .button:hover {
-  opacity: 0.6;
-  box-shadow: 0px 0px 10px rgba(0,0,0, 0.4)
+  box-shadow: 0px 0px 20px rgba(0,0,0, 0.4)
 }
 
 #green {
@@ -89,4 +88,26 @@
   -webkit-border-radius: 0 0 0 var(--button-width);
 }
 
+/* jQuery Classes */
+
+.clicked {
+  opacity: 0.6;
+}
+
 /* Other Styling */
+
+#root header {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+#root section {
+  margin-top: 20px;
+}
+
+header, section {
+  display: flex;
+  justify-content: center;
+}
