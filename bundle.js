@@ -73019,7 +73019,7 @@ var App = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      gameOver: false,
+      gameOver: true,
       playersTurn: true,
       correctSequence: [],
       inputSequence: [],
@@ -73045,11 +73045,22 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.sequenceIsComplete = _this.sequenceIsComplete.bind(_assertThisInitialized(_this));
     _this.reconcileRound = _this.reconcileRound.bind(_assertThisInitialized(_this));
     _this.playGame = _this.playGame.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
-  } // Plays a different note, depending on the color passed in
+  } // Add an event listener for a keypress
 
 
   _createClass(App, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      window.addEventListener('keypress', function (e) {
+        if (e.keyCode === 32) _this2.playGame(e);
+      });
+    } // Plays a different note, depending on the color passed in
+
+  }, {
     key: "playSound",
     value: function playSound(color) {
       var notes = {
@@ -73083,19 +73094,19 @@ var App = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "playNextButton",
     value: function playNextButton(color) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.activateButton(color);
       this.playSound(color);
       setTimeout(function () {
-        _this2.deactivateButton(color);
+        _this3.deactivateButton(color);
       }, this._delay * (3 / 5));
     } // Increases the sequences length, and plays through the sequence
 
   }, {
     key: "playNextSequence",
     value: function playNextSequence() {
-      var _this3 = this;
+      var _this4 = this;
 
       // Set the player's turn to false, because the sequence is playing
       this.setState({
@@ -73103,7 +73114,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       }); // Set the player's turn to true after the sequence is done playing
 
       setTimeout(function () {
-        _this3.setState({
+        _this4.setState({
           playersTurn: true
         });
       }, this._delay * this.correctSequence.length - 1); // Add the next color
@@ -73115,8 +73126,8 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       this.correctSequence.forEach(function (color, i) {
         setTimeout(function () {
-          _this3.playNextButton(color);
-        }, _this3._delay * i);
+          _this4.playNextButton(color);
+        }, _this4._delay * i);
       }); // Increment the round by one
 
       this.round += 1;
@@ -73193,10 +73204,14 @@ var App = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleClick",
     value: function handleClick(e) {
-      e.preventDefault();
-      var color = e.target.id; // Plays the corresponding sound and pushes color into user input sequence
+      e.preventDefault(); // This particular line of code fixes a strange issue where clicking 'space'
+      // when playing on a computer triggered a mouse click event. It is a temp fix, and doesn't
+      // quite get to the root of the isse, but for all intents and purposes, it fixes the bug. 
 
-      this.playSound(color);
+      if (e.nativeEvent.pageX === 0) return;
+      var color = e.target.id; // Plays the corresponding sound, flashes the button, and pushes color into user input sequence
+
+      this.playNextButton(color);
       this.inputSequence.push(color); // Updates state to user input sequence if it's the player's turn
 
       if (this.state.playersTurn) this.setState({
@@ -73204,26 +73219,35 @@ var App = /*#__PURE__*/function (_React$Component) {
       }); // Reconcile the round
 
       this.reconcileRound();
-      console.log("Input: ".concat(this.inputSequence));
-      console.log("Actual: ".concat(this.state.correctSequence));
-    } // A simple method to start the game
+    } // Starts the game logic
 
   }, {
     key: "playGame",
     value: function playGame(e) {
-      e.preventDefault();
+      var _this5 = this;
+
+      e.preventDefault(); // Returns if game is already in session
+
+      if (!this.state.gameOver) return; // Removes the spacebar start event listener
+
+      window.removeEventListener('keypress', function (e) {
+        if (e.keyCode === 32) _this5.playGame(e);
+      });
+      this.setState({
+        gameOver: false
+      });
       setTimeout(this.playNextSequence, 250);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this6 = this;
 
       var disabled = !this.state.playersTurn; // Create an array of Button components by mapping over this.colors
 
       var buttons = this.colors.map(function (color, idx) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          onClick: _this4.handleClick,
+          onClick: _this6.handleClick,
           key: idx,
           color: color,
           disabled: disabled
