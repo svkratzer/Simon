@@ -215,7 +215,7 @@ class App extends React.Component {
     // Display round number if game is playing, otherwise start button
     const roundNumberOrStartButton = gameOver ? (
       <div className="round-or-play-container">
-        <div id="desktop-note">Press the 'space' key or click 'PLAY' to begin</div>
+        <div id="desktop-note">Press the 'spacebar' or click 'PLAY' to begin</div>
         <button onClick={this.playGame}>
           PLAY
         </button>
