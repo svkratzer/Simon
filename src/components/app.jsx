@@ -5,12 +5,20 @@ class App extends React.Component {
 
   render() {
     return (
-      <div id="buttons-container">
-        <Button color="green" />
-        <Button color="red" />
-        <Button color="yellow" />
-        <Button color="blue" />
-      </div>
+      <>
+        <header>
+          <h1>Simon Says</h1>
+        </header>
+
+        <section>
+          <div id="buttons-container">
+            <Button color="green" />
+            <Button color="red" />
+            <Button color="yellow" />
+            <Button color="blue" />
+          </div>
+        </section>
+      </>
     );
   }
 }
