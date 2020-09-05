@@ -167,6 +167,7 @@ header, section {
   height: 40px;
   font-size: 18px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 #game-over {
@@ -188,6 +189,10 @@ header, section {
     display: block;
   }
 
+  #desktop-note {
+    display: none;
+  }
+
   .modal.container {
     height: 280px;
   }
@@ -197,6 +202,10 @@ header, section {
 
   #mobile-note {
     display: block;
+  }
+
+  #desktop-note {
+    display: none;
   }
 
   .modal.container {
