@@ -19,7 +19,8 @@ class App extends React.Component {
       highScore: 0,
       highScores: [],
       newHighScore: false,
-      name: ""
+      name: "",
+      soundOn: true
     }
 
     this.correctSequence = [];
@@ -47,6 +48,7 @@ class App extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.addHighScore = this.addHighScore.bind(this);
     this.updateName = this.updateName.bind(this);
+    this.toggleSound = this.toggleSound.bind(this);
   }
 
   // Add an event listener for a keypress
@@ -57,6 +59,16 @@ class App extends React.Component {
         this.playGame(e);
       }
     });
+  }
+
+  // Mute/unmute the sound
+  toggleSound(e) {
+    e.preventDefault();
+    if (this.state.soundOn) {
+      this.setState({ soundOn: false });
+    } else {
+      this.setState({ soundOn: true });
+    }
   }
 
   // Adds a High Score to the list
@@ -83,6 +95,7 @@ class App extends React.Component {
 
   // Plays a different note, depending on the color passed in
   playSound(color) {
+    if (!this.state.soundOn) return;
     const notes = {
       green: "C4",
       red: "E4",
@@ -266,6 +279,9 @@ class App extends React.Component {
       </div>
     );
 
+    // Decides what to show in the mute button
+    const muteButtonText = this.state.soundOn ? "Mute" : "Unmute"
+
     // Create an array of Button components by mapping over this.colors
     const buttons = this.colors.map((color, idx) => (
       <Button onClick={this.handleClick} 
@@ -300,6 +316,10 @@ class App extends React.Component {
         <section>
           <div className="round-or-play-container">
             {roundNumberOrStartButton}
+            <button id="mute"
+              onClick={this.toggleSound}>
+              {muteButtonText}
+            </button>
           </div>
 
           <div className="stats">
