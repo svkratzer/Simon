@@ -123,10 +123,10 @@ class App extends React.Component {
   }
   
   // "Plays" a button in the sequence by making it blink and play its note
-  playNextButton(color) {
+  playNextButton(color, delay) {
     this.activateButton(color);
     this.playSound(color);
-    setTimeout(() => { this.deactivateButton(color) }, (this._delay * (3/5)));
+    setTimeout(() => { this.deactivateButton(color) }, delay);
   }
 
   // Increases the sequences length, and plays through the sequence
@@ -142,7 +142,7 @@ class App extends React.Component {
     this.setState({ correctSequence: this.correctSequence });
     // Play the sequence with sounds
     this.correctSequence.forEach((color, i) => {
-      setTimeout(() => { this.playNextButton(color) }, this._delay * i);
+      setTimeout(() => { this.playNextButton(color, 300) }, this._delay * i);
     });
     // Increment the round by one and reset input sequence
     this.round += 1
@@ -224,7 +224,7 @@ class App extends React.Component {
 
     const color = e.target.id
     // Plays the corresponding sound, flashes the button, and pushes color into user input sequence
-    this.playNextButton(color);
+    this.playNextButton(color, 150);
     this.inputSequence.push(color);
     // Updates state to user input sequence if it's the player's turn
     if (this.state.playersTurn) this.setState({ inputSequence: this.inputSequence });
