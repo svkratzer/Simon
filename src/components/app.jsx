@@ -175,9 +175,6 @@ class App extends React.Component {
     if (this.state.playersTurn) this.setState({ inputSequence: this.inputSequence });
     // Reconcile the round
     this.reconcileRound();
-
-    console.log(`Input: ${this.inputSequence}`)
-    console.log(`Actual: ${this.state.correctSequence}`)
   }
 
   // Starts the game logic
