@@ -32,9 +32,11 @@ class App extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.playSound = this.playSound.bind(this);
     this.pushNewColor = this.pushNewColor.bind(this);
-    this.sequenceIsCorrect = this.sequenceIsCorrect.bind(this)
-    this.sequenceIsComplete = this.sequenceIsComplete.bind(this)
+    this.playNextSequence = this.playNextSequence.bind(this);
+    this.sequenceIsCorrect = this.sequenceIsCorrect.bind(this);
+    this.sequenceIsComplete = this.sequenceIsComplete.bind(this);
     this.reconcileRound = this.reconcileRound.bind(this);
+    this.playGame = this.playGame.bind(this);
   }
 
   // Plays a different note, depending on the color passed in
@@ -74,8 +76,14 @@ class App extends React.Component {
 
   // Increases the sequences length, and plays through the sequence
   playNextSequence() {
+    // Set the player's turn to false, because the sequence is playing
+    this.setState({ playersTurn: false })
+    // Set the player's turn to true after the sequence is done playing
+    setTimeout(() => { 
+      this.setState({ playersTurn: true }); 
+      }, (this._delay * this.correctSequence.length - 1));
     // Add the next color
-    this.pushNewColor()
+    this.pushNewColor();
     this.setState({ correctSequence: this.correctSequence });
     // Play the sequence with sounds
     this.correctSequence.forEach((color, i) => {
@@ -130,6 +138,8 @@ class App extends React.Component {
       this.setState({ currentScore: this.currentScore })
       this.inputSequence = [];
       this.setState({ inputSequence: this.inputSequence })
+      // Start the next sequence on a delay...
+      setTimeout(this.playNextSequence, 1000);
     // Check to see if the sequences do not match at any given point
     } else if (!sequenceIsCorrect) {
       this.gameOverProtocol();
@@ -156,11 +166,20 @@ class App extends React.Component {
     console.log(`Actual: ${this.state.correctSequence}`)
   }
 
+  // A simple method to start the game
+  playGame(e) {
+    e.preventDefault();
+    setTimeout(this.playNextSequence, 250);
+  }
+
   render() {
-    
+    const disabled = !this.state.playersTurn
     // Create an array of Button components by mapping over this.colors
     const buttons = this.colors.map((color, idx) => (
-      <Button onClick={this.handleClick} key={idx} color={color}/>
+      <Button onClick={this.handleClick} 
+        key={idx} 
+        color={color}
+        disabled={disabled}/>
     ));
 
     return (
@@ -176,7 +195,7 @@ class App extends React.Component {
         </section>
 
         <section>
-          <button onClick={(e) => {e.preventDefault(); this.playNextSequence();}}>
+          <button onClick={this.playGame}>
             LET'S PLAY
           </button>
           <div className="stats">
