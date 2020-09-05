@@ -73031,7 +73031,8 @@ var App = /*#__PURE__*/function (_React$Component) {
       highScore: 0,
       highScores: [],
       newHighScore: false,
-      name: ""
+      name: "",
+      soundOn: true
     };
     _this.correctSequence = [];
     _this.inputSequence = [];
@@ -73055,6 +73056,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.closeModal = _this.closeModal.bind(_assertThisInitialized(_this));
     _this.addHighScore = _this.addHighScore.bind(_assertThisInitialized(_this));
     _this.updateName = _this.updateName.bind(_assertThisInitialized(_this));
+    _this.toggleSound = _this.toggleSound.bind(_assertThisInitialized(_this));
     return _this;
   } // Add an event listener for a keypress
 
@@ -73071,13 +73073,31 @@ var App = /*#__PURE__*/function (_React$Component) {
           _this2.playGame(e);
         }
       });
+    } // Mute/unmute the sound
+
+  }, {
+    key: "toggleSound",
+    value: function toggleSound(e) {
+      e.preventDefault();
+
+      if (this.state.soundOn) {
+        this.setState({
+          soundOn: false
+        });
+      } else {
+        this.setState({
+          soundOn: true
+        });
+      }
     } // Adds a High Score to the list
 
   }, {
     key: "addHighScore",
     value: function addHighScore() {
       var name = this.state.name === "" ? "Anonymous" : this.state.name;
-      this.highScores.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Name: ".concat(name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Score: ".concat(this.state.highScore))));
+      this.highScores.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: this.state.highScore
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Name: ".concat(name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Score: ".concat(this.state.highScore))));
       this.setState({
         highScores: this.highScores,
         newHighScore: false
@@ -73096,6 +73116,7 @@ var App = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "playSound",
     value: function playSound(color) {
+      if (!this.state.soundOn) return;
       var notes = {
         green: "C4",
         red: "E4",
@@ -73126,14 +73147,14 @@ var App = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "playNextButton",
-    value: function playNextButton(color) {
+    value: function playNextButton(color, delay) {
       var _this3 = this;
 
       this.activateButton(color);
       this.playSound(color);
       setTimeout(function () {
         _this3.deactivateButton(color);
-      }, this._delay * (3 / 5));
+      }, delay);
     } // Increases the sequences length, and plays through the sequence
 
   }, {
@@ -73159,7 +73180,7 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       this.correctSequence.forEach(function (color, i) {
         setTimeout(function () {
-          _this4.playNextButton(color);
+          _this4.playNextButton(color, 300);
         }, _this4._delay * i);
       }); // Increment the round by one and reset input sequence
 
@@ -73248,7 +73269,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       if (e.nativeEvent.pageX === 0) return;
       var color = e.target.id; // Plays the corresponding sound, flashes the button, and pushes color into user input sequence
 
-      this.playNextButton(color);
+      this.playNextButton(color, 150);
       this.inputSequence.push(color); // Updates state to user input sequence if it's the player's turn
 
       if (this.state.playersTurn) this.setState({
@@ -73312,7 +73333,14 @@ var App = /*#__PURE__*/function (_React$Component) {
         className: "round-or-play-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "round"
-      }, "Current Round: ", round === 0 ? 1 : round)); // Create an array of Button components by mapping over this.colors
+      }, "Current Round: ", round === 0 ? 1 : round)); // Decides what to show in the mute button
+
+      var muteButtonText = this.state.soundOn ? "Mute" : "Unmute";
+      var muteSymbol = this.state.soundOn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-volume-up"
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-volume-mute"
+      }); // Create an array of Button components by mapping over this.colors
 
       var buttons = this.colors.map(function (color, idx) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_button__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -73335,7 +73363,10 @@ var App = /*#__PURE__*/function (_React$Component) {
         id: "buttons-container"
       }, buttons)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "round-or-play-container"
-      }, roundNumberOrStartButton), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, roundNumberOrStartButton, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        id: "mute",
+        onClick: this.toggleSound
+      }, muteSymbol, "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, muteButtonText))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "stats"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null));
     }
