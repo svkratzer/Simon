@@ -47,6 +47,7 @@
   height: var(--button-width);
   width: var(--button-height);
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .button:hover {
