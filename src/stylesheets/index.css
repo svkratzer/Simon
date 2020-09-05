@@ -99,6 +99,7 @@
 #root {
   background-color: black;
   height: 100vh;
+  color: white;
 }
 
 #root header {
@@ -113,7 +114,8 @@
 
 header, section {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .stats {
