@@ -1,6 +1,8 @@
 import React from 'react';
-import Button from './button';
 import { PolySynth } from 'tone';
+
+import Button from './button';
+import GameOverModal from './game_over_modal';
 
 class App extends React.Component {
   constructor(props) {
@@ -8,6 +10,7 @@ class App extends React.Component {
 
     this.state = {
       gameOver: true,
+      modal: false,
       playersTurn: true,
       correctSequence: [],
       inputSequence: [],
@@ -37,7 +40,8 @@ class App extends React.Component {
     this.sequenceIsComplete = this.sequenceIsComplete.bind(this);
     this.reconcileRound = this.reconcileRound.bind(this);
     this.playGame = this.playGame.bind(this);
-    this.handleClick = this.handleClick.bind(this)
+    this.handleClick = this.handleClick.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   // Add an event listener for a keypress
@@ -129,6 +133,7 @@ class App extends React.Component {
     // Reset all the necessary parts of state
     this.setState({ 
       gameOver: true,
+      modal: true,
       currentScore: this.currentScore,
       round: this.round,
       inputSequence: [],
@@ -192,9 +197,14 @@ class App extends React.Component {
     setTimeout(this.playNextSequence, 250);
   }
 
+  closeModal(e) {
+    e.preventDefault();
+    this.setState({ modal: false })
+  }
+
   render() {
     const disabled = !this.state.playersTurn;
-    const { gameOver, round } = this.state;
+    const { gameOver, round, modal } = this.state;
 
     // Display round number if game is playing, otherwise start button
     const roundNumberOrStartButton = gameOver ? (
@@ -218,8 +228,13 @@ class App extends React.Component {
         disabled={disabled}/>
     ));
     return (
-
       <>
+        { modal && 
+          <GameOverModal 
+            closeModal={this.closeModal}
+            playGame={this.playGame}/>
+        }
+
         <header>
           <h1>Simon Says</h1>
         </header>
