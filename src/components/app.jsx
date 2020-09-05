@@ -8,7 +8,7 @@ class App extends React.Component {
 
     this.state = {
       gameOver: false,
-      playersTurn: false,
+      playersTurn: true,
       correctSequence: [],
       inputSequence: [],
       round: 0,
@@ -32,6 +32,8 @@ class App extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.playSound = this.playSound.bind(this);
     this.pushNewColor = this.pushNewColor.bind(this);
+    this.sequenceIsCorrect = this.sequenceIsCorrect.bind(this)
+    this.sequenceIsComplete = this.sequenceIsComplete.bind(this)
     this.reconcileRound = this.reconcileRound.bind(this);
   }
 
@@ -86,18 +88,56 @@ class App extends React.Component {
 
   // Check to see if the sequences match
   sequenceIsCorrect() {
-    this.state.inputSequence.forEach((color, i) => {
-      if (color !== this.state.correctSequence[i]) return false;
+    const { correctSequence } = this.state
+    const inputSequence = this.inputSequence
+    let correct = true;
+    // Iterate over the input sequence to see if it's correct every step of the way
+    for(let i = 0; i < inputSequence.length; i++) {
+      if (inputSequence[i] !== correctSequence[i]) correct = false;
+      if (i === inputSequence.length - 1) return correct;
+    }
+  }
+
+  // Check to see if the sequence is complete
+  sequenceIsComplete() {
+    const { correctSequence } = this.state
+    return this.inputSequence.length === correctSequence.length
+  }
+
+  // Handles logic when the game has ended
+  gameOverProtocol() {
+    this.currentScore = 0;
+    this.round = 0;
+    this.inputSequence = [];
+    this.correctSequence = [];
+    // Reset all the necessary parts of state
+    this.setState({ 
+      gameOver: true,
+      currentScore: this.currentScore,
+      round: this.round,
+      inputSequence: [],
+      correctSequence: []
     });
-    return true;
   }
 
   // Handles game over and increasing current score logic depending on whether the sequence is correct
   reconcileRound() {
-    if (this.sequenceIsCorrect) {
+    const sequenceIsCorrect = this.sequenceIsCorrect();
+    const sequenceIsComplete = this.sequenceIsComplete();
+    // Check to see if the sequences and the game is over
+    if (sequenceIsCorrect && sequenceIsComplete) {
+      this.currentScore += 1
+      this.setState({ currentScore: this.currentScore })
+      this.inputSequence = [];
+      this.setState({ inputSequence: this.inputSequence })
+    // Check to see if the sequences do not match at any given point
+    } else if (!sequenceIsCorrect) {
+      this.gameOverProtocol();
+    }
 
-    } else {
-      this.setState({ gameOver: true })
+    // Check to see if there's a new high score
+    if (this.currentScore > this.state.highScore) {
+      this.setState({ highScore: this.currentScore })
     }
   }
 
@@ -109,11 +149,11 @@ class App extends React.Component {
     this.inputSequence.push(color)
     // Updates state to user input sequence if it's the player's turn
     if (this.state.playersTurn) this.setState({ inputSequence: this.inputSequence });
-    // Check to see if the player is done entering the sequence
-    if (this.state.inputSequence.length === this.state.correctSequence.length) {
-      this.reconcileRound();
-    }
-    console.log(this.state.inputSequence)
+    // Reconcile the round
+    this.reconcileRound();
+
+    console.log(`Input: ${this.inputSequence}`)
+    console.log(`Actual: ${this.state.correctSequence}`)
   }
 
   render() {
@@ -142,6 +182,12 @@ class App extends React.Component {
           <div className="stats">
             <div>
               Current Round: {this.state.round}
+            </div>
+            <div>
+              High Score: {this.state.highScore}
+            </div>
+            <div>
+              Current Score: {this.state.currentScore}
             </div>
           </div>
         </section>
