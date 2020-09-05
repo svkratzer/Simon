@@ -121,3 +121,11 @@ header, section {
 .stats {
   color: white;
 }
+
+/* Mobile Optimizations */
+
+@media (max-height: 480px) {
+  #root {
+    display: flex; 
+  }
+}
