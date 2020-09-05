@@ -281,6 +281,11 @@ class App extends React.Component {
 
     // Decides what to show in the mute button
     const muteButtonText = this.state.soundOn ? "Mute" : "Unmute"
+    const muteSymbol = this.state.soundOn ? (
+      <i className="fas fa-volume-up"></i>
+      ) : (
+      <i className="fas fa-volume-mute"></i>
+    )
 
     // Create an array of Button components by mapping over this.colors
     const buttons = this.colors.map((color, idx) => (
@@ -318,7 +323,8 @@ class App extends React.Component {
             {roundNumberOrStartButton}
             <button id="mute"
               onClick={this.toggleSound}>
-              {muteButtonText}
+                {muteSymbol}&nbsp;
+                <span>{muteButtonText}</span>
             </button>
           </div>
 
