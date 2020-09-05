@@ -147,14 +147,27 @@ header, section {
 .modal.container {
   display: flex;
   flex-direction: column;
-  height: 300px;
-  width: 300px;
+  height: 460px;
+  width: 460px;
+  padding: 20px;
+  border-radius: 20px;
   background-color: black;
   z-index: 3;
 }
 
 .modal.container div {
   text-align: center;
+}
+
+.modal .buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.modal button {
+  margin: 10px;
+  width: 100px;
+  height: 40px;
 }
 
 /* Mobile Optimizations */
