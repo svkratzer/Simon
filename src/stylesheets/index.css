@@ -129,6 +129,34 @@ header, section {
   width: 75%;
 }
 
+/* Modal */
+
+.modal.screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.modal.container {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  width: 300px;
+  background-color: black;
+  z-index: 3;
+}
+
+.modal.container div {
+  text-align: center;
+}
+
 /* Mobile Optimizations */
 
 @media (max-height: 480px) {
