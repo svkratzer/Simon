@@ -241,11 +241,12 @@ class App extends React.Component {
             </div>
           </div>
         </section>
-        <footer>
+
+        <section>
           <div id="mobile-note">
             Make sure your phone isn't on 'silent mode', or the sounds won't play!
           </div>
-        </footer>
+        </section>
       </>
     );
   }
