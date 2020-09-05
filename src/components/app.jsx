@@ -193,8 +193,22 @@ class App extends React.Component {
   }
 
   render() {
-    const disabled = !this.state.playersTurn
-    const gameOver = this.state.gameOver
+    const disabled = !this.state.playersTurn;
+    const { gameOver, round } = this.state;
+
+    // Display round number if game is playing, otherwise start button
+    const roundNumberOrStartButton = gameOver ? (
+      <div className="round-or-play-container">
+        <div>Press the space bar or click 'Play' to begin</div>
+        <button onClick={this.playGame}>
+          PLAY
+        </button>
+      </div>
+    ) : (
+      <div className="round-or-play-container">
+        <div>Current Round: {round === 0 ? 1 : round}</div>
+      </div>
+    );
 
     // Create an array of Button components by mapping over this.colors
     const buttons = this.colors.map((color, idx) => (
@@ -217,24 +231,13 @@ class App extends React.Component {
         </section>
 
         <section>
-          { gameOver &&
-            <div>
-              <div>Press the space bar or click 'Play' to begin</div>
-              <button onClick={this.playGame}>
-                PLAY
-              </button>
-            </div>
-          }
+          <div className="round-or-play-container">
+            {roundNumberOrStartButton}
+          </div>
 
           <div className="stats">
             <div>
-              Current Round: {this.state.round}
-            </div>
-            <div>
               High Score: {this.state.highScore}
-            </div>
-            <div>
-              Current Score: {this.state.currentScore}
             </div>
           </div>
         </section>
