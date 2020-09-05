@@ -50,7 +50,7 @@
 }
 
 .button:hover {
-  box-shadow: 0px 0px 20px rgba(0,0,0, 0.4)
+  opacity: 0.8;
 }
 
 #green {
@@ -93,26 +93,32 @@
     opacity: 0.5;
 }
 
-/* jQuery Classes */
-
-.clicked {
+.activated {
   opacity: 0.5;
 }
 
 /* Other Styling */
 
+#root {
+  background-color: black;
+  height: 100vh;
+}
+
 #root header {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: bold;
   font-size: 20px;
-  margin-top: 20px;
 }
 
 #root section {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 header, section {
   display: flex;
   justify-content: center;
+}
+
+.stats {
+  color: white;
 }
