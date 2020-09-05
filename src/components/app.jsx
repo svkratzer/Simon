@@ -37,6 +37,14 @@ class App extends React.Component {
     this.sequenceIsComplete = this.sequenceIsComplete.bind(this);
     this.reconcileRound = this.reconcileRound.bind(this);
     this.playGame = this.playGame.bind(this);
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  // Add an event listener for a keypress
+  componentDidMount() {
+    window.addEventListener('keypress', (e) => {
+      if (e.keyCode === 32) this.playGame(e);
+    });
   }
 
   // Plays a different note, depending on the color passed in
@@ -71,7 +79,7 @@ class App extends React.Component {
   playNextButton(color) {
     this.activateButton(color);
     this.playSound(color);
-    setTimeout(() => { this.deactivateButton(color) }, (this._delay * (3/5)))
+    setTimeout(() => { this.deactivateButton(color) }, (this._delay * (3/5)));
   }
 
   // Increases the sequences length, and plays through the sequence
@@ -153,10 +161,16 @@ class App extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
+
+    // This particular line of code fixes a strange issue where clicking 'space'
+    // when playing on a computer triggered a mouse click event. It is a temp fix, and doesn't
+    // quite get to the root of the isse, but for all intents and purposes, it fixes the bug. 
+    if (e.nativeEvent.pageX === 0) return;
+
     const color = e.target.id
-    // Plays the corresponding sound and pushes color into user input sequence
-    this.playSound(color);
-    this.inputSequence.push(color)
+    // Plays the corresponding sound, flashes the button, and pushes color into user input sequence
+    this.playNextButton(color);
+    this.inputSequence.push(color);
     // Updates state to user input sequence if it's the player's turn
     if (this.state.playersTurn) this.setState({ inputSequence: this.inputSequence });
     // Reconcile the round
@@ -166,9 +180,17 @@ class App extends React.Component {
     console.log(`Actual: ${this.state.correctSequence}`)
   }
 
-  // A simple method to start the game
+  // Starts the game logic
   playGame(e) {
     e.preventDefault();
+    // Returns if game is already in session
+    if (!this.state.gameOver) return;
+
+    // Removes the spacebar start event listener
+    window.removeEventListener('keypress', (e) => {
+      if (e.keyCode === 32) this.playGame(e);
+    });
+
     this.setState({ gameOver: false })
     setTimeout(this.playNextSequence, 250);
   }
