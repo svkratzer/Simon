@@ -46,6 +46,7 @@
   border: none;
   height: var(--button-width);
   width: var(--button-height);
+  transition: 0.3s;
 }
 
 .button:hover {
@@ -80,7 +81,7 @@
 }
 
 #yellow {
-  background-color: rgb(253, 215, 0);
+  background-color: rgb(253, 207, 0);
   border:  rgb(207, 178, 11) 1px solid;
 
     border-radius: 0 0 0 var(--button-width);
@@ -88,10 +89,14 @@
   -webkit-border-radius: 0 0 0 var(--button-width);
 }
 
+.button:active {
+    opacity: 0.5;
+}
+
 /* jQuery Classes */
 
 .clicked {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 /* Other Styling */
