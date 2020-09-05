@@ -21,10 +21,10 @@ class GameOverModal extends React.Component {
           <div>Would you like to play again?</div>
           <div className="buttons">
             <button onClick={this.handleYes}>
-              heck yes
+              YES
             </button>
             <button onClick={this.props.closeModal}>
-              naw dood
+              NO
             </button>
           </div>
         </div>
