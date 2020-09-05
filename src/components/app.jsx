@@ -36,7 +36,6 @@ class App extends React.Component {
     this.synth = new PolySynth().toDestination();
 
     // Bind functions
-    this.handleClick = this.handleClick.bind(this);
     this.playSound = this.playSound.bind(this);
     this.pushNewColor = this.pushNewColor.bind(this);
     this.playNextSequence = this.playNextSequence.bind(this);
@@ -132,9 +131,13 @@ class App extends React.Component {
     this.correctSequence.forEach((color, i) => {
       setTimeout(() => { this.playNextButton(color) }, this._delay * i);
     });
-    // Increment the round by one
+    // Increment the round by one and reset input sequence
     this.round += 1
-    this.setState({ round: this.round })
+    this.setState({ 
+      round: this.round,
+      inputSequence: []
+    });
+    this.inputSequence = [];
   }
 
   // Check to see if the sequences match
@@ -247,14 +250,19 @@ class App extends React.Component {
     // Display round number if game is playing, otherwise start button
     const roundNumberOrStartButton = gameOver ? (
       <div className="round-or-play-container">
-        <div id="desktop-note">Press the 'spacebar' or click 'PLAY' to begin</div>
-        <button onClick={this.playGame}>
+        <div id="desktop-note">
+          Press the 'spacebar' or click 'PLAY' to begin
+        </div>
+        <div id="mobile-note">
+          Make sure your phone isn't on 'silent mode', or the sounds won't play!
+        </div>
+        <button id="play" onClick={this.playGame}>
           PLAY
         </button>
       </div>
     ) : (
       <div className="round-or-play-container">
-        <div>Current Round: {round === 0 ? 1 : round}</div>
+        <div id="round">Current Round: {round === 0 ? 1 : round}</div>
       </div>
     );
 
@@ -299,9 +307,7 @@ class App extends React.Component {
         </section>
 
         <section>
-          <div id="mobile-note">
-            Make sure your phone isn't on 'silent mode', or the sounds won't play!
-          </div>
+          
         </section>
       </>
     );
