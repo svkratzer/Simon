@@ -29,8 +29,9 @@ class GameOverModal extends React.Component {
                 NO
               </button>
             </div>
+            <div id="desktop-note">You can also press the 'spacebar' to start again</div>
           </div>
-          
+
         </div>
       </div>
     )
