@@ -73028,19 +73028,22 @@ var App = /*#__PURE__*/function (_React$Component) {
       inputSequence: [],
       round: 0,
       currentScore: 0,
-      highScore: 0
+      highScore: 0,
+      highScores: [],
+      newHighScore: false,
+      name: ""
     };
     _this.correctSequence = [];
     _this.inputSequence = [];
     _this.round = 0;
     _this.currentScore = 0;
     _this.highScore = 0;
+    _this.highScores = [];
     _this._delay = 500;
     _this.colors = ["green", "red", "yellow", "blue"]; // Creates a synth and connects it to the main output (users speakers)
 
     _this.synth = new tone__WEBPACK_IMPORTED_MODULE_1__["PolySynth"]().toDestination(); // Bind functions
 
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.playSound = _this.playSound.bind(_assertThisInitialized(_this));
     _this.pushNewColor = _this.pushNewColor.bind(_assertThisInitialized(_this));
     _this.playNextSequence = _this.playNextSequence.bind(_assertThisInitialized(_this));
@@ -73050,6 +73053,8 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.playGame = _this.playGame.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.closeModal = _this.closeModal.bind(_assertThisInitialized(_this));
+    _this.addHighScore = _this.addHighScore.bind(_assertThisInitialized(_this));
+    _this.updateName = _this.updateName.bind(_assertThisInitialized(_this));
     return _this;
   } // Add an event listener for a keypress
 
@@ -73065,6 +73070,26 @@ var App = /*#__PURE__*/function (_React$Component) {
 
           _this2.playGame(e);
         }
+      });
+    } // Adds a High Score to the list
+
+  }, {
+    key: "addHighScore",
+    value: function addHighScore() {
+      var name = this.state.name === "" ? "Anonymous" : this.state.name;
+      this.highScores.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Name: ".concat(name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Score: ".concat(this.state.highScore))));
+      this.setState({
+        highScores: this.highScores,
+        newHighScore: false
+      });
+    } // Changes name
+
+  }, {
+    key: "updateName",
+    value: function updateName(e) {
+      e.preventDefault();
+      this.setState({
+        name: e.target.value
       });
     } // Plays a different note, depending on the color passed in
 
@@ -73136,12 +73161,14 @@ var App = /*#__PURE__*/function (_React$Component) {
         setTimeout(function () {
           _this4.playNextButton(color);
         }, _this4._delay * i);
-      }); // Increment the round by one
+      }); // Increment the round by one and reset input sequence
 
       this.round += 1;
       this.setState({
-        round: this.round
+        round: this.round,
+        inputSequence: []
       });
+      this.inputSequence = [];
     } // Check to see if the sequences match
 
   }, {
@@ -73199,14 +73226,15 @@ var App = /*#__PURE__*/function (_React$Component) {
         }); // Start the next sequence on a delay...
 
         setTimeout(this.playNextSequence, 1000); // Check to see if the sequences do not match at any given point
-      } else if (!sequenceIsCorrect) {
+      } else if (!sequenceIsCorrect && this.state.correctSequence.length) {
         this.gameOverProtocol();
       } // Check to see if there's a new high score
 
 
       if (this.currentScore > this.state.highScore) {
         this.setState({
-          highScore: this.currentScore
+          highScore: this.currentScore,
+          newHighScore: true
         });
       }
     }
@@ -73258,6 +73286,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       this.setState({
         modal: false
       });
+      if (this.state.newHighScore) this.addHighScore();
     }
   }, {
     key: "render",
@@ -73272,11 +73301,18 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       var roundNumberOrStartButton = gameOver ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "round-or-play-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Press the space bar or click 'Play' to begin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "desktop-note"
+      }, "Press the 'spacebar' or click 'PLAY' to begin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "mobile-note"
+      }, "Make sure your phone isn't on 'silent mode', or the sounds won't play!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        id: "play",
         onClick: this.playGame
       }, "PLAY")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "round-or-play-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Current Round: ", round === 0 ? 1 : round)); // Create an array of Button components by mapping over this.colors
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "round"
+      }, "Current Round: ", round === 0 ? 1 : round)); // Create an array of Button components by mapping over this.colors
 
       var buttons = this.colors.map(function (color, idx) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_button__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -73288,16 +73324,20 @@ var App = /*#__PURE__*/function (_React$Component) {
       });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, modal && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_game_over_modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
         closeModal: this.closeModal,
-        playGame: this.playGame
+        playGame: this.playGame,
+        addHighScore: this.addHighScore,
+        updateName: this.updateName,
+        highScore: this.state.highScore,
+        name: this.state.name,
+        highScores: this.state.highScores,
+        newHighScore: this.state.newHighScore
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Simon Says")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "buttons-container"
       }, buttons)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "round-or-play-container"
       }, roundNumberOrStartButton), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "stats"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High Score: ", this.state.highScore))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "mobile-note"
-      }, "Make sure your phone isn't on 'silent mode', or the sounds won't play!")));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null));
     }
   }]);
 
@@ -73437,11 +73477,35 @@ var GameOverModal = /*#__PURE__*/function (_React$Component) {
         className: "modal screen"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "GAME OVER!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Would you like to play again?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "highscores-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "game-over"
+      }, "GAME OVER!"), this.props.newHighScore && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "new-highscore"
+      }, "You scored ", this.props.highScore, "! That's a record!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Player Name:\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "highscore-name",
+        placeholder: "Enter your name, here.",
+        type: "text",
+        value: this.props.name,
+        onChange: this.props.updateName
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "highscores-header"
+      }, "TOP THREE HIGHSCORES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "line"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        id: "highscores"
+      }, this.props.highScores.slice(0, 3).reverse())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "play-again"
+      }, "Would you like to play again?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleYes
-      }, "heck yes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, "YES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.props.closeModal
-      }, "naw dood")));
+      }, "NO")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "desktop-note"
+      }, "You can also press the 'spacebar' to start again"))));
     }
   }]);
 
