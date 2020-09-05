@@ -1,11 +1,16 @@
 import React from 'react'
-import ButtonsContainer from './buttons/buttons_container'
+import Button from './button'
 
 class App extends React.Component {
 
   render() {
     return (
-      <ButtonsContainer />
+      <div id="buttons-container">
+        <Button color="green" />
+        <Button color="red" />
+        <Button color="yellow" />
+        <Button color="blue" />
+      </div>
     );
   }
 }
