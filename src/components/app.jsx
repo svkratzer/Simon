@@ -62,9 +62,11 @@ class App extends React.Component {
 
   // Adds a High Score to the list
   addHighScore() {
+    const name = this.state.name === "" ? "Anonymous" : this.state.name
+
     this.highScores.push(
       <li>
-        <div>{`Name: ${this.state.name}`}</div>
+        <div>{`Name: ${name}`}</div>
         <div>{`Score: ${this.state.highScore}`}</div>
       </li>
     );
