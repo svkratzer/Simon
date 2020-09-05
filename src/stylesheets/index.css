@@ -1,9 +1,35 @@
-:root {
-  --buttons-container-width: 300px;
-  --buttons-container-height: 300px;
+/* Variables for Mobile */
 
-  --button-height: 140px;
-  --button-width: 140px;
+@media (max-width: 480px) {
+  :root {
+    --buttons-container-width: 300px;
+    --buttons-container-height: 300px;
+  
+    --button-height: 140px;
+    --button-width: 140px;
+  }
+}
+
+@media (max-height: 480px) {
+  :root {
+    --buttons-container-width: 300px;
+    --buttons-container-height: 300px;
+  
+    --button-height: 140px;
+    --button-width: 140px;
+  }
+}
+
+/* Variables for Desktop */
+
+@media (min-width: 480px) and (min-height: 480px) {
+  :root {
+    --buttons-container-width: 400px;
+    --buttons-container-height: 400px;
+  
+    --button-height: 190px;
+    --button-width: 190px;
+  }
 }
 
 /* Button Styling */
