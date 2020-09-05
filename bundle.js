@@ -72979,8 +72979,9 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./button */ "./src/components/button.jsx");
-/* harmony import */ var tone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tone */ "./node_modules/tone/build/esm/index.js");
+/* harmony import */ var tone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tone */ "./node_modules/tone/build/esm/index.js");
+/* harmony import */ var _button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./button */ "./src/components/button.jsx");
+/* harmony import */ var _game_over_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./game_over_modal */ "./src/components/game_over_modal.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -73007,6 +73008,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
 
@@ -73020,6 +73022,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       gameOver: true,
+      modal: false,
       playersTurn: true,
       correctSequence: [],
       inputSequence: [],
@@ -73035,7 +73038,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this._delay = 500;
     _this.colors = ["green", "red", "yellow", "blue"]; // Creates a synth and connects it to the main output (users speakers)
 
-    _this.synth = new tone__WEBPACK_IMPORTED_MODULE_2__["PolySynth"]().toDestination(); // Bind functions
+    _this.synth = new tone__WEBPACK_IMPORTED_MODULE_1__["PolySynth"]().toDestination(); // Bind functions
 
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.playSound = _this.playSound.bind(_assertThisInitialized(_this));
@@ -73046,6 +73049,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.reconcileRound = _this.reconcileRound.bind(_assertThisInitialized(_this));
     _this.playGame = _this.playGame.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.closeModal = _this.closeModal.bind(_assertThisInitialized(_this));
     return _this;
   } // Add an event listener for a keypress
 
@@ -73056,7 +73060,11 @@ var App = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       window.addEventListener('keypress', function (e) {
-        if (e.keyCode === 32) _this2.playGame(e);
+        if (e.keyCode === 32) {
+          _this2.closeModal(e);
+
+          _this2.playGame(e);
+        }
       });
     } // Plays a different note, depending on the color passed in
 
@@ -73166,6 +73174,7 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       this.setState({
         gameOver: true,
+        modal: true,
         currentScore: this.currentScore,
         round: this.round,
         inputSequence: [],
@@ -73231,12 +73240,24 @@ var App = /*#__PURE__*/function (_React$Component) {
       if (!this.state.gameOver) return; // Removes the spacebar start event listener
 
       window.removeEventListener('keypress', function (e) {
-        if (e.keyCode === 32) _this5.playGame(e);
+        if (e.keyCode === 32) {
+          _this5.playGame(e);
+
+          _this5.closeModal(e);
+        }
       });
       this.setState({
         gameOver: false
       });
       setTimeout(this.playNextSequence, 250);
+    }
+  }, {
+    key: "closeModal",
+    value: function closeModal(e) {
+      e.preventDefault();
+      this.setState({
+        modal: false
+      });
     }
   }, {
     key: "render",
@@ -73246,7 +73267,8 @@ var App = /*#__PURE__*/function (_React$Component) {
       var disabled = !this.state.playersTurn;
       var _this$state = this.state,
           gameOver = _this$state.gameOver,
-          round = _this$state.round; // Display round number if game is playing, otherwise start button
+          round = _this$state.round,
+          modal = _this$state.modal; // Display round number if game is playing, otherwise start button
 
       var roundNumberOrStartButton = gameOver ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "round-or-play-container"
@@ -73257,20 +73279,25 @@ var App = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Current Round: ", round === 0 ? 1 : round)); // Create an array of Button components by mapping over this.colors
 
       var buttons = this.colors.map(function (color, idx) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_button__WEBPACK_IMPORTED_MODULE_2__["default"], {
           onClick: _this6.handleClick,
           key: idx,
           color: color,
           disabled: disabled
         });
       });
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Simon Says")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, modal && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_game_over_modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        closeModal: this.closeModal,
+        playGame: this.playGame
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Simon Says")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "buttons-container"
       }, buttons)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "round-or-play-container"
       }, roundNumberOrStartButton), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "stats"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High Score: ", this.state.highScore))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High Score: ", this.state.highScore))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "mobile-note"
+      }, "Make sure your phone isn't on 'silent mode', or the sounds won't play!")));
     }
   }]);
 
@@ -73343,6 +73370,85 @@ var Button = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Button);
+
+/***/ }),
+
+/***/ "./src/components/game_over_modal.jsx":
+/*!********************************************!*\
+  !*** ./src/components/game_over_modal.jsx ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var GameOverModal = /*#__PURE__*/function (_React$Component) {
+  _inherits(GameOverModal, _React$Component);
+
+  var _super = _createSuper(GameOverModal);
+
+  function GameOverModal(props) {
+    var _this;
+
+    _classCallCheck(this, GameOverModal);
+
+    _this = _super.call(this, props);
+    _this.handleYes = _this.handleYes.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(GameOverModal, [{
+    key: "handleYes",
+    value: function handleYes(e) {
+      e.preventDefault();
+      this.props.closeModal(e);
+      this.props.playGame(e);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal screen"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "GAME OVER!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Would you like to play again?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleYes
+      }, "heck yes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.props.closeModal
+      }, "naw dood")));
+    }
+  }]);
+
+  return GameOverModal;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (GameOverModal);
 
 /***/ }),
 
