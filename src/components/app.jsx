@@ -47,7 +47,10 @@ class App extends React.Component {
   // Add an event listener for a keypress
   componentDidMount() {
     window.addEventListener('keypress', (e) => {
-      if (e.keyCode === 32) this.playGame(e);
+      if (e.keyCode === 32) {
+        this.closeModal(e);
+        this.playGame(e);
+      }
     });
   }
 
@@ -190,7 +193,10 @@ class App extends React.Component {
 
     // Removes the spacebar start event listener
     window.removeEventListener('keypress', (e) => {
-      if (e.keyCode === 32) this.playGame(e);
+      if (e.keyCode === 32) {
+        this.playGame(e);
+        this.closeModal(e);
+      }
     });
 
     this.setState({ gameOver: false })
