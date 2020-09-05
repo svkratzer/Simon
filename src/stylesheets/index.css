@@ -122,10 +122,25 @@ header, section {
   color: white;
 }
 
+#mobile-note {
+  display: none;
+}
+
 /* Mobile Optimizations */
 
 @media (max-height: 480px) {
   #root {
     display: flex; 
+  }
+
+  #mobile-note {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+
+  #mobile-note {
+    display: block;
   }
 }
