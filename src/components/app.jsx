@@ -16,7 +16,10 @@ class App extends React.Component {
       inputSequence: [],
       round: 0,
       currentScore: 0,
-      highScore: 0
+      highScore: 0,
+      highScores: [],
+      newHighScore: false,
+      name: ""
     }
 
     this.correctSequence = [];
@@ -24,6 +27,7 @@ class App extends React.Component {
     this.round = 0;
     this.currentScore = 0;
     this.highScore = 0;
+    this.highScores = [];
 
     this._delay = 500
     this.colors = ["green", "red", "yellow", "blue"];
@@ -42,6 +46,8 @@ class App extends React.Component {
     this.playGame = this.playGame.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.addHighScore = this.addHighScore.bind(this);
+    this.updateName = this.updateName.bind(this);
   }
 
   // Add an event listener for a keypress
@@ -52,6 +58,26 @@ class App extends React.Component {
         this.playGame(e);
       }
     });
+  }
+
+  // Adds a High Score to the list
+  addHighScore() {
+    this.highScores.push(
+      <li>
+        <div>{`Name: ${this.state.name}`}</div>
+        <div>{`Score: ${this.state.highScore}`}</div>
+      </li>
+    );
+    this.setState({
+      highScores: this.highScores,
+      newHighScore: false
+    })
+  }
+
+  // Changes name
+  updateName(e) {
+    e.preventDefault();
+    this.setState({ name: e.target.value })
   }
 
   // Plays a different note, depending on the color passed in
@@ -163,7 +189,10 @@ class App extends React.Component {
 
     // Check to see if there's a new high score
     if (this.currentScore > this.state.highScore) {
-      this.setState({ highScore: this.currentScore })
+      this.setState({ 
+        highScore: this.currentScore,
+        newHighScore: true
+      });
     }
   }
 
@@ -206,6 +235,7 @@ class App extends React.Component {
   closeModal(e) {
     e.preventDefault();
     this.setState({ modal: false })
+    if (this.state.newHighScore) this.addHighScore();
   }
 
   render() {
@@ -238,7 +268,13 @@ class App extends React.Component {
         { modal && 
           <GameOverModal 
             closeModal={this.closeModal}
-            playGame={this.playGame}/>
+            playGame={this.playGame}
+            addHighScore={this.addHighScore}
+            updateName={this.updateName}
+            highScore={this.state.highScore}
+            name={this.state.name}
+            highScores={this.state.highScores}
+            newHighScore={this.state.newHighScore}/>
         }
 
         <header>
@@ -257,9 +293,6 @@ class App extends React.Component {
           </div>
 
           <div className="stats">
-            <div>
-              High Score: {this.state.highScore}
-            </div>
           </div>
         </section>
 
