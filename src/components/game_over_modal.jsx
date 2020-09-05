@@ -13,7 +13,6 @@ class GameOverModal extends React.Component {
   }
 
   render() {
-
     return (
       <div className="modal screen">
         <div className="modal container">
@@ -38,7 +37,7 @@ class GameOverModal extends React.Component {
             <div id="highscores-header">TOP THREE HIGHSCORES</div>
             <div className="line"></div>
             <ul id="highscores">
-              {this.props.highScores.slice(3).reverse()}
+              {this.props.highScores.slice(0, 3).reverse()}
             </ul>
           </div>
 
