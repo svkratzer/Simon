@@ -157,7 +157,7 @@ class App extends React.Component {
       // Start the next sequence on a delay...
       setTimeout(this.playNextSequence, 1000);
     // Check to see if the sequences do not match at any given point
-    } else if (!sequenceIsCorrect) {
+    } else if (!sequenceIsCorrect && this.state.correctSequence.length) {
       this.gameOverProtocol();
     }
 
@@ -215,7 +215,7 @@ class App extends React.Component {
     // Display round number if game is playing, otherwise start button
     const roundNumberOrStartButton = gameOver ? (
       <div className="round-or-play-container">
-        <div>Press the space bar or click 'Play' to begin</div>
+        <div id="desktop-note">Press the 'space' key or click 'PLAY' to begin</div>
         <button onClick={this.playGame}>
           PLAY
         </button>
