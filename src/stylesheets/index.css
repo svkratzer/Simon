@@ -86,10 +86,6 @@
   -webkit-border-radius: 0 0 0 var(--button-width);
 }
 
-/* .button:active {
-    opacity: 0.5;
-} */
-
 .activated {
   opacity: 0.5;
 }
@@ -98,12 +94,12 @@
 
 #root {
   background-color: black;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100vh;
   color: white;
 }
 
 #root header {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: bold;
   font-size: 20px;
 }
@@ -147,9 +143,10 @@ header, section {
 .modal.container {
   display: flex;
   flex-direction: column;
-  height: 460px;
-  width: 460px;
-  padding: 20px;
+  justify-content: space-between;
+  height: 440px;
+  width: 440px;
+  padding: 30px;
   border-radius: 20px;
   background-color: black;
   z-index: 3;
@@ -168,6 +165,16 @@ header, section {
   margin: 10px;
   width: 100px;
   height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#game-over {
+  font-size: 30px;
+}
+
+#play-again {
+  font-size: 18px;
 }
 
 /* Mobile Optimizations */
@@ -180,11 +187,19 @@ header, section {
   #mobile-note {
     display: block;
   }
+
+  .modal.container {
+    height: 280px;
+  }
 }
 
 @media (max-width: 480px) {
 
   #mobile-note {
     display: block;
+  }
+
+  .modal.container {
+    width: 280px;
   }
 }

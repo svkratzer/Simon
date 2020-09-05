@@ -17,16 +17,20 @@ class GameOverModal extends React.Component {
     return (
       <div className="modal screen">
         <div className="modal container">
-          <div>GAME OVER!</div>
-          <div>Would you like to play again?</div>
-          <div className="buttons">
-            <button onClick={this.handleYes}>
-              YES
-            </button>
-            <button onClick={this.props.closeModal}>
-              NO
-            </button>
+          <div id="game-over">GAME OVER!</div>
+
+          <div>
+            <div id="play-again">Would you like to play again?</div>
+            <div className="buttons">
+              <button onClick={this.handleYes}>
+                YES
+              </button>
+              <button onClick={this.props.closeModal}>
+                NO
+              </button>
+            </div>
           </div>
+          
         </div>
       </div>
     )
