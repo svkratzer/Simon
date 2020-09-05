@@ -86,9 +86,9 @@
   -webkit-border-radius: 0 0 0 var(--button-width);
 }
 
-.button:active {
+/* .button:active {
     opacity: 0.5;
-}
+} */
 
 .activated {
   opacity: 0.5;
