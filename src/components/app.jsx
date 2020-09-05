@@ -64,7 +64,7 @@ class App extends React.Component {
     const name = this.state.name === "" ? "Anonymous" : this.state.name
 
     this.highScores.push(
-      <li>
+      <li key={this.state.highScore}>
         <div>{`Name: ${name}`}</div>
         <div>{`Score: ${this.state.highScore}`}</div>
       </li>
