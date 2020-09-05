@@ -194,6 +194,8 @@ class App extends React.Component {
 
   render() {
     const disabled = !this.state.playersTurn
+    const gameOver = this.state.gameOver
+
     // Create an array of Button components by mapping over this.colors
     const buttons = this.colors.map((color, idx) => (
       <Button onClick={this.handleClick} 
@@ -201,8 +203,8 @@ class App extends React.Component {
         color={color}
         disabled={disabled}/>
     ));
-
     return (
+
       <>
         <header>
           <h1>Simon Says</h1>
@@ -215,9 +217,15 @@ class App extends React.Component {
         </section>
 
         <section>
-          <button onClick={this.playGame}>
-            LET'S PLAY
-          </button>
+          { gameOver &&
+            <div>
+              <div>Press the space bar or click 'Play' to begin</div>
+              <button onClick={this.playGame}>
+                PLAY
+              </button>
+            </div>
+          }
+
           <div className="stats">
             <div>
               Current Round: {this.state.round}
