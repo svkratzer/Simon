@@ -7,7 +7,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      gameOver: false,
+      gameOver: true,
       playersTurn: true,
       correctSequence: [],
       inputSequence: [],
@@ -169,6 +169,7 @@ class App extends React.Component {
   // A simple method to start the game
   playGame(e) {
     e.preventDefault();
+    this.setState({ gameOver: false })
     setTimeout(this.playNextSequence, 250);
   }
 
