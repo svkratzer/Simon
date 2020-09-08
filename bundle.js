@@ -73387,9 +73387,7 @@ var App = /*#__PURE__*/function (_React$Component) {
         className: "sound-on"
       }, "Make sure your phone isn't on 'silent mode', or the sounds won't play!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "test-buttons"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: this.playLoserSound
-      }, "LOSER"))));
+      })));
     }
   }]);
 
