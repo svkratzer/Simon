@@ -49,6 +49,7 @@ class App extends React.Component {
     this.addHighScore = this.addHighScore.bind(this);
     this.updateName = this.updateName.bind(this);
     this.toggleSound = this.toggleSound.bind(this);
+    this.playLoserSound = this.playLoserSound.bind(this);
   }
 
   // Add an event listener for a keypress
@@ -103,6 +104,17 @@ class App extends React.Component {
       blue: "C5"
     }
     this.synth.triggerAttackRelease(notes[color], "8n");
+  }
+
+  // Plays a sound effect when the player loses.
+  playLoserSound() {
+    const playNote = (note, length) => {
+      return () => this.synth.triggerAttackRelease(note, length);
+    };
+
+    setTimeout(playNote("C4", "8n"), 500)
+    setTimeout(playNote("G#3", "8n"), 1000)
+    setTimeout(playNote("D3", "2n"), 1550)
   }
 
   activateButton(color) {
@@ -178,6 +190,7 @@ class App extends React.Component {
     this.inputSequence = [];
     this.correctSequence = [];
     // Reset all the necessary parts of state
+    this.playLoserSound();
     this.setState({ 
       gameOver: true,
       modal: true,
@@ -332,6 +345,7 @@ class App extends React.Component {
           </div>
 
           <div className="test-buttons">
+            <button onClick={this.playLoserSound}>LOSER</button>
           </div>
         </section>
       </>
