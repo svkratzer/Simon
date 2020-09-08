@@ -96,11 +96,21 @@
 
 /* Other Styling */
 
+#round {
+  font-size: 24px;
+  font-weight: bold;
+}
+
 #mute {
   cursor: pointer;
   font-size: 16px;
-  width: 100px;
+  margin-top: 10px;
+  min-width: 100px;
   padding: 3px;
+}
+
+.sound-on {
+  margin-top: 10px;
 }
 
 header h1 {

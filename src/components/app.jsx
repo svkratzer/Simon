@@ -266,17 +266,16 @@ class App extends React.Component {
         <div id="desktop-note">
           Press the 'spacebar' or click 'PLAY' to begin
         </div>
-        <div id="mobile-note">
-          Make sure your phone isn't on 'silent mode', or the sounds won't play!
-        </div>
         <button id="play" onClick={this.playGame}>
           PLAY
         </button>
       </div>
     ) : (
-      <div className="round-or-play-container">
-        <div id="round">Current Round: {round === 0 ? 1 : round}</div>
-      </div>
+      <>
+        <div className="round-or-play-container">
+          <div id="round">Current Round: {round === 0 ? 1 : round}</div>
+        </div>
+      </>
     );
 
     // Decides what to show in the mute button
@@ -326,6 +325,10 @@ class App extends React.Component {
                 {muteSymbol}&nbsp;
                 <span>{muteButtonText}</span>
             </button>
+
+            <div id="mobile-note" className="sound-on">
+              Make sure your phone isn't on 'silent mode', or the sounds won't play!
+            </div>
           </div>
 
           <div className="stats">
