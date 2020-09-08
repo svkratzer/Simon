@@ -345,7 +345,6 @@ class App extends React.Component {
           </div>
 
           <div className="test-buttons">
-            <button onClick={this.playLoserSound}>LOSER</button>
           </div>
         </section>
       </>
