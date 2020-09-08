@@ -73324,16 +73324,14 @@ var App = /*#__PURE__*/function (_React$Component) {
         className: "round-or-play-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "desktop-note"
-      }, "Press the 'spacebar' or click 'PLAY' to begin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "mobile-note"
-      }, "Make sure your phone isn't on 'silent mode', or the sounds won't play!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, "Press the 'spacebar' or click 'PLAY' to begin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         id: "play",
         onClick: this.playGame
-      }, "PLAY")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "PLAY")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "round-or-play-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "round"
-      }, "Current Round: ", round === 0 ? 1 : round)); // Decides what to show in the mute button
+      }, "Current Round: ", round === 0 ? 1 : round))); // Decides what to show in the mute button
 
       var muteButtonText = this.state.soundOn ? "Mute" : "Unmute";
       var muteSymbol = this.state.soundOn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -73366,7 +73364,10 @@ var App = /*#__PURE__*/function (_React$Component) {
       }, roundNumberOrStartButton, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         id: "mute",
         onClick: this.toggleSound
-      }, muteSymbol, "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, muteButtonText))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, muteSymbol, "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, muteButtonText)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "mobile-note",
+        className: "sound-on"
+      }, "Make sure your phone isn't on 'silent mode', or the sounds won't play!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "stats"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null));
     }
