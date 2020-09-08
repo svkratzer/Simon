@@ -331,12 +331,8 @@ class App extends React.Component {
             </div>
           </div>
 
-          <div className="stats">
+          <div className="test-buttons">
           </div>
-        </section>
-
-        <section>
-          
         </section>
       </>
     );
