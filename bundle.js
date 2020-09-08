@@ -73057,6 +73057,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.addHighScore = _this.addHighScore.bind(_assertThisInitialized(_this));
     _this.updateName = _this.updateName.bind(_assertThisInitialized(_this));
     _this.toggleSound = _this.toggleSound.bind(_assertThisInitialized(_this));
+    _this.playLoserSound = _this.playLoserSound.bind(_assertThisInitialized(_this));
     return _this;
   } // Add an event listener for a keypress
 
@@ -73124,6 +73125,22 @@ var App = /*#__PURE__*/function (_React$Component) {
         blue: "C5"
       };
       this.synth.triggerAttackRelease(notes[color], "8n");
+    } // Plays a sound effect when the player loses.
+
+  }, {
+    key: "playLoserSound",
+    value: function playLoserSound() {
+      var _this3 = this;
+
+      var playNote = function playNote(note, length) {
+        return function () {
+          return _this3.synth.triggerAttackRelease(note, length);
+        };
+      };
+
+      setTimeout(playNote("C4", "8n"), 500);
+      setTimeout(playNote("G#3", "8n"), 1000);
+      setTimeout(playNote("D3", "2n"), 1550);
     }
   }, {
     key: "activateButton",
@@ -73148,19 +73165,19 @@ var App = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "playNextButton",
     value: function playNextButton(color, delay) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.activateButton(color);
       this.playSound(color);
       setTimeout(function () {
-        _this3.deactivateButton(color);
+        _this4.deactivateButton(color);
       }, delay);
     } // Increases the sequences length, and plays through the sequence
 
   }, {
     key: "playNextSequence",
     value: function playNextSequence() {
-      var _this4 = this;
+      var _this5 = this;
 
       // Set the player's turn to false, because the sequence is playing
       this.setState({
@@ -73168,7 +73185,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       }); // Set the player's turn to true after the sequence is done playing
 
       setTimeout(function () {
-        _this4.setState({
+        _this5.setState({
           playersTurn: true
         });
       }, this._delay * this.correctSequence.length - 1); // Add the next color
@@ -73180,8 +73197,8 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       this.correctSequence.forEach(function (color, i) {
         setTimeout(function () {
-          _this4.playNextButton(color, 300);
-        }, _this4._delay * i);
+          _this5.playNextButton(color, 300);
+        }, _this5._delay * i);
       }); // Increment the round by one and reset input sequence
 
       this.round += 1;
@@ -73220,6 +73237,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       this.inputSequence = [];
       this.correctSequence = []; // Reset all the necessary parts of state
 
+      this.playLoserSound();
       this.setState({
         gameOver: true,
         modal: true,
@@ -73282,7 +73300,7 @@ var App = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "playGame",
     value: function playGame(e) {
-      var _this5 = this;
+      var _this6 = this;
 
       e.preventDefault(); // Returns if game is already in session
 
@@ -73290,9 +73308,9 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       window.removeEventListener('keypress', function (e) {
         if (e.keyCode === 32) {
-          _this5.playGame(e);
+          _this6.playGame(e);
 
-          _this5.closeModal(e);
+          _this6.closeModal(e);
         }
       });
       this.setState({
@@ -73312,7 +73330,7 @@ var App = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this7 = this;
 
       var disabled = !this.state.playersTurn;
       var _this$state = this.state,
@@ -73342,7 +73360,7 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       var buttons = this.colors.map(function (color, idx) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_button__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          onClick: _this6.handleClick,
+          onClick: _this7.handleClick,
           key: idx,
           color: color,
           disabled: disabled
@@ -73368,8 +73386,10 @@ var App = /*#__PURE__*/function (_React$Component) {
         id: "mobile-note",
         className: "sound-on"
       }, "Make sure your phone isn't on 'silent mode', or the sounds won't play!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "stats"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null));
+        className: "test-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.playLoserSound
+      }, "LOSER"))));
     }
   }]);
 
